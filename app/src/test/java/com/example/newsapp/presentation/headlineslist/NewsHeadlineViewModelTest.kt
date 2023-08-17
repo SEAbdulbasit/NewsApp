@@ -50,7 +50,7 @@ class NewsHeadlineViewModelTest {
         coEvery { newsRepository.getHeadlines() } returns Result.success(emptyList())
 
         viewModel = NewsHeadlineViewModel(newsRepository)
-        viewModel.state.test {
+        viewModel.uiState.test {
             assertEquals(NewsScreenState(), awaitItem())
             assertEquals(NewsScreenState(isLoading = false, articles = emptyList()), awaitItem())
         }
@@ -61,7 +61,7 @@ class NewsHeadlineViewModelTest {
         coEvery { newsRepository.getHeadlines() } returns Result.failure(exception)
 
         viewModel = NewsHeadlineViewModel(newsRepository)
-        viewModel.state.test {
+        viewModel.uiState.test {
             assertEquals(NewsScreenState(), awaitItem())
             assertEquals(
                 NewsScreenState(
@@ -79,7 +79,7 @@ class NewsHeadlineViewModelTest {
 
             viewModel = NewsHeadlineViewModel(newsRepository)
 
-            viewModel.state.test {
+            viewModel.uiState.test {
                 assertEquals(NewsScreenState(), awaitItem())
                 assertEquals(
                     NewsScreenState(
@@ -110,7 +110,7 @@ class NewsHeadlineViewModelTest {
 
             viewModel = NewsHeadlineViewModel(newsRepository)
 
-            viewModel.state.test {
+            viewModel.uiState.test {
                 assertEquals(NewsScreenState(), awaitItem())
                 assertEquals(
                     NewsScreenState(

@@ -17,11 +17,13 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class NewsHeadlineViewModel @Inject constructor(private val newsRepository: NewsRepository) :
+class NewsHeadlineViewModel @Inject constructor(
+    private val newsRepository: NewsRepository
+) :
     ViewModel() {
 
-    private val _state = MutableStateFlow(NewsScreenState())
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(NewsScreenState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         onAction(NewsHeadlinesActions.Refresh)
@@ -37,10 +39,10 @@ class NewsHeadlineViewModel @Inject constructor(private val newsRepository: News
 
     private fun fetchHeadlines() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
+            _uiState.value = _uiState.value.copy(isLoading = true)
             newsRepository.getHeadlines().fold(
                 onSuccess = { articlesList ->
-                    _state.update {
+                    _uiState.update {
                         it.copy(
                             isLoading = false,
                             articles = articlesList,
@@ -49,7 +51,7 @@ class NewsHeadlineViewModel @Inject constructor(private val newsRepository: News
                     }
                 },
                 onFailure = { throwable ->
-                    _state.update {
+                    _uiState.update {
                         it.copy(
                             isLoading = false,
                             articles = it.articles,
