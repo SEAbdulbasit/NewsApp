@@ -88,5 +88,10 @@ dependencies {
     //coroutine test
     testImplementation(libs.kotlinx.coroutines.test)
 
+    //turbine
+    testImplementation(libs.turbine)
 
+    //testing
+    androidTestImplementation (libs.core.testing)
+    testImplementation (libs.core.testing)
 }

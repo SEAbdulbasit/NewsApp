@@ -1,5 +1,6 @@
 [versions]
 agp = "8.2.0-alpha15"
+androidx-core-testing = "2.2.0"
 hilt-android = "2.44"
 kotlin = "1.8.10"
 core-ktx = "1.10.1"
@@ -13,10 +14,12 @@ compose-bom = "2023.03.00"
 mockk = "1.13.1"
 moshi-kotlin = "1.15.0"
 retrofit = "2.9.0"
+turbine = "1.0.0"
 
 [libraries]
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidx-core-testing" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -30,6 +33,7 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi-kotlin" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi-kotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
