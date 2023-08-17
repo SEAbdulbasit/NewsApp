@@ -74,11 +74,13 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
+    implementation(libs.retrofit2.kotlin.coroutines.adapter)
     implementation(libs.converter.moshi)
 
     //Moshi
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi)
+    kapt(libs.moshi.kotlin.codegen)
 
     //Hilt
     implementation(libs.hilt.android)
@@ -103,6 +105,12 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     implementation (libs.androidx.navigation.compose)
+
+    implementation (libs.androidx.material)
+
+    implementation(libs.coil.compose)
+
+
 }
 
 // Allow references to generated code

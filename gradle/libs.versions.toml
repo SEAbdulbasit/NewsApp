@@ -1,6 +1,7 @@
 [versions]
 agp = "8.2.0-alpha15"
 androidx-core-testing = "2.2.0"
+coil-compose = "2.4.0"
 hilt-android = "2.44"
 hilt-navigation-compose = "1.0.0"
 kotlin = "1.8.10"
@@ -12,16 +13,20 @@ kotlinx-coroutines-test = "1.6.4"
 lifecycle-runtime-ktx = "2.6.1"
 activity-compose = "1.7.2"
 compose-bom = "2023.03.00"
+material = "1.5.0"
 mockk = "1.13.1"
 moshi-kotlin = "1.15.0"
 navigation-compose = "2.7.0"
 retrofit = "2.9.0"
+retrofit2-kotlin-coroutines-adapter = "0.9.2"
 turbine = "1.0.0"
 constraintlayout = "2.1.4"
 
 [libraries]
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidx-core-testing" }
@@ -38,7 +43,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi-kotlin" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi-kotlin" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi-kotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit2-kotlin-coroutines-adapter = { module = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter", version.ref = "retrofit2-kotlin-coroutines-adapter" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }

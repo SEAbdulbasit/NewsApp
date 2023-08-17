@@ -3,6 +3,7 @@ package com.example.newsapp.di
 import com.example.newsapp.domain.NewsRepository
 import com.example.newsapp.network.NewsApiInterface
 import com.example.newsapp.network.NewsRepositoryImpl
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +30,7 @@ abstract class AppModule {
         @Provides
         fun newsApi(httpClient: OkHttpClient): NewsApiInterface {
             return Retrofit.Builder().baseUrl("https://newsapi.org/").client(httpClient)
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(MoshiConverterFactory.create()).build()
                 .create(NewsApiInterface::class.java)
         }
