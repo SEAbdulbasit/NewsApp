@@ -10,7 +10,8 @@ import com.example.newsapp.domain.model.ArticleDomainModel
 class NewsRepositoryImpl(private val newsApiInterface: NewsApiInterface) : NewsRepository {
     override suspend fun getHeadlines(): Result<List<ArticleDomainModel>> {
         return try {
-            val result = newsApiInterface.getTopHeadlines().articles.map { it.toDomainModel() }
+            val result =
+                newsApiInterface.getTopHeadlines().articles.map { it.toDomainModel() }
             Result.success(result)
         } catch (e: Exception) {
             Result.failure(e)
