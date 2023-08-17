@@ -11,12 +11,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -64,8 +68,30 @@ fun HeadlinesScreen(uiState: NewsScreenState, onRefresh: () -> Unit) {
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter),
         )
+
+        if (uiState.exceptionMessage != null) {
+            MySnackbar(uiState.exceptionMessage, "Dismiss")
+        }
     }
 }
+
+@Composable
+fun MySnackbar(
+    message: String,
+    actionLabel: String,
+    duration: SnackbarDuration = SnackbarDuration.Indefinite,
+) {
+    val snackbarHostState = SnackbarHostState()
+
+    LaunchedEffect(message) {
+        snackbarHostState.showSnackbar(message, actionLabel, duration = duration)
+    }
+
+    SnackbarHost(
+        hostState = SnackbarHostState(),
+    )
+}
+
 
 @Composable
 fun NewsHeadlineItem(
