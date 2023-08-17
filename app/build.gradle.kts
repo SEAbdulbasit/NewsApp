@@ -80,5 +80,10 @@ dependencies {
     //Hilt
     implementation("com.google.dagger:hilt-android:2.44")
 
+    //mockk
+    androidTestImplementation( "io.mockk:mockk:1.13.1")
+    testImplementation("io.mockk:mockk:1.13.1")
+    androidTestImplementation("io.mockk:mockk-android:1.13.1")
+
 
 }
