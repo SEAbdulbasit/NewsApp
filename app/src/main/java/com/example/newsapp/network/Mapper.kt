@@ -10,17 +10,17 @@ import com.example.newsapp.network.model.HeadlinesResponseModel
  */
 
 fun HeadlinesResponseModel.Article.toDomainModel() = ArticleDomainModel(
-    author = this.author!!,
-    content = this.content!!,
-    description = this.description!!,
-    publishedAt = this.publishedAt!!,
-    title = this.title!!,
-    url = this.url!!,
-    urlToImage = this.urlToImage!!,
-    source = this.source?.toDomainModel()!!
+    author = this.author?:"",
+    content = this.content?:"",
+    description = this.description ?: "",
+    publishedAt = this.publishedAt ?: "",
+    title = this.title ?: "",
+    url = this.url ?: "",
+    urlToImage = this.urlToImage ?: "",
+    source = this.source?.toDomainModel() ?: SourceDomainModel("", "")
 )
 
 fun HeadlinesResponseModel.Article.Source.toDomainModel() = SourceDomainModel(
-    id = this.id!!,
-    name = this.name!!
+    id = this.id?:"",
+    name = this.name?:""
 )
