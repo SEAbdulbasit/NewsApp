@@ -19,21 +19,23 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
-    @Provides
-    fun httpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
-    }
 
-    @Provides
-    fun newsApi(httpClient: OkHttpClient): NewsApiInterface {
-        return Retrofit.Builder().baseUrl("https://newsapi.org/").client(httpClient)
-            .addConverterFactory(MoshiConverterFactory.create()).build()
-            .create(NewsApiInterface::class.java)
-    }
+    companion object {
+        @Provides
+        fun httpClient(): OkHttpClient {
+            return OkHttpClient.Builder().build()
+        }
 
-    @Provides
-    fun newsRepository(newsApiInterface: NewsApiInterface): NewsRepository {
-        return NewsRepositoryImpl(newsApiInterface)
-    }
+        @Provides
+        fun newsApi(httpClient: OkHttpClient): NewsApiInterface {
+            return Retrofit.Builder().baseUrl("https://newsapi.org/").client(httpClient)
+                .addConverterFactory(MoshiConverterFactory.create()).build()
+                .create(NewsApiInterface::class.java)
+        }
 
+        @Provides
+        fun newsRepository(newsApiInterface: NewsApiInterface): NewsRepository {
+            return NewsRepositoryImpl(newsApiInterface)
+        }
+    }
 }
