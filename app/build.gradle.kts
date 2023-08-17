@@ -70,20 +70,23 @@ dependencies {
 
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.moshi)
 
     //Moshi
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
-    implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi)
 
     //Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
+    implementation(libs.hilt.android)
 
     //mockk
-    androidTestImplementation( "io.mockk:mockk:1.13.1")
-    testImplementation("io.mockk:mockk:1.13.1")
-    androidTestImplementation("io.mockk:mockk-android:1.13.1")
+    androidTestImplementation(libs.mockk)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+
+    //coroutine test
+    testImplementation(libs.kotlinx.coroutines.test)
 
 
 }
