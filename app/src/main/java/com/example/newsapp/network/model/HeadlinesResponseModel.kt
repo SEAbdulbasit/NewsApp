@@ -19,7 +19,7 @@ data class HeadlinesResponseModel(
         @Json(name = "content") val content: String?,
         @Json(name = "description") val description: String?,
         @Json(name = "publishedAt") val publishedAt: String?,
-        @Json(name = "source") val source: Source,
+        @Json(name = "source") val source: Source?,
         @Json(name = "title") val title: String?,
         @Json(name = "url") val url: String?,
         @Json(name = "urlToImage") val urlToImage: String?
@@ -27,7 +27,7 @@ data class HeadlinesResponseModel(
         @JsonClass(generateAdapter = true)
         data class Source(
             @Json(name = "id") val id: String?,
-            @Json(name = "name") val name: String
+            @Json(name = "name") val name: String?
         )
     }
 }
