@@ -2,4 +2,7 @@
     <string name="app_name">NewsApp</string>
     <string name="back_arrow">back arrow</string>
     <string name="headline_image">headline image</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="authenticate_using_your_biometric_data">Authenticate using your biometric data</string>
+    <string name="cancel">Cancel</string>
 </resources>
