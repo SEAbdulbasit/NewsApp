@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -66,7 +67,9 @@ fun HeadlinesScreen(uiState: NewsScreenState, onRefresh: () -> Unit) {
         PullRefreshIndicator(
             refreshing = uiState.isLoading,
             state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .testTag(IndicatorTag),
         )
 
         if (uiState.exceptionMessage != null) {
@@ -107,7 +110,7 @@ fun NewsHeadlineItem(
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = article.urlToImage,
-                contentDescription = null,
+                contentDescription = article.description,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(90.dp)
@@ -141,3 +144,5 @@ fun NewsHeadlineItem(
     }
 }
 
+
+private const val IndicatorTag = "pull-refresh-indicator"
