@@ -41,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -48,7 +49,33 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes+="META-INF/*"
+            excludes += "META-INF/*"
+        }
+    }
+
+    flavorDimensions += "source"
+
+    productFlavors {
+        create("al-jazeera") {
+            dimension = "source"
+            applicationIdSuffix = ".aljazeeraenglish"
+            buildConfigField(
+                "String", "NEWS_SOURCE", "\"al-jazeera-english\""
+            )
+            buildConfigField(
+                "String", "NEWS_SOURCE_TITLE", "\"Al Jazeera\""
+            )
+        }
+
+        create("abc-news") {
+            dimension = "source"
+            applicationIdSuffix = ".abcnews"
+            buildConfigField(
+                "String", "NEWS_SOURCE", "\"abc-news\""
+            )
+            buildConfigField(
+                "String", "NEWS_SOURCE_TITLE", "\"ABC News\""
+            )
         }
     }
 }
@@ -105,9 +132,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    implementation (libs.androidx.navigation.compose)
-
-    implementation (libs.androidx.material)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material)
 
     implementation(libs.coil.compose)
 

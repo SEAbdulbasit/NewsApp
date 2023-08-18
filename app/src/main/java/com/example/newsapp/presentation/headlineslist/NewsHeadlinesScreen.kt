@@ -20,6 +20,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,8 +31,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.newsapp.BuildConfig
 import com.example.newsapp.domain.model.ArticleDomainModel
 import com.example.newsapp.presentation.NewsScreenState
 
@@ -42,16 +45,13 @@ import com.example.newsapp.presentation.NewsScreenState
 
 @Composable
 fun NewsHeadlinesRoute(
-    viewModel: NewsHeadlineViewModel,
-    navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
+    viewModel: NewsHeadlineViewModel, navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
 ) {
     val uiState: NewsScreenState by viewModel.uiState.collectAsState()
 
-    HeadlinesScreen(
-        uiState = uiState,
+    HeadlinesScreen(uiState = uiState,
         navigateToHeadlinesDetails = navigateToHeadlinesDetails,
-        onRefresh = { viewModel.onAction(NewsHeadlinesActions.Refresh) }
-    )
+        onRefresh = { viewModel.onAction(NewsHeadlinesActions.Refresh) })
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -63,30 +63,42 @@ fun HeadlinesScreen(
 ) {
     val pullRefreshState = rememberPullRefreshState(uiState.isLoading, onRefresh)
 
-    Box(
-        Modifier
-            .fillMaxSize()
-            .pullRefresh(pullRefreshState)
-    ) {
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(uiState.articles) {
-                NewsHeadlineItem(
-                    article = it,
-                    navigateToHeadlinesDetails = navigateToHeadlinesDetails
-                )
-            }
-        }
-
-        PullRefreshIndicator(
-            refreshing = uiState.isLoading,
-            state = pullRefreshState,
+    Column {
+        Text(
+            textAlign = TextAlign.Center,
+            text = BuildConfig.NEWS_SOURCE_TITLE,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.W700,
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .testTag(IndicatorTag),
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
         )
 
-        if (uiState.exceptionMessage != null) {
-            MySnackbar(uiState.exceptionMessage, "Dismiss")
+        Box(
+            Modifier
+                .fillMaxSize()
+                .pullRefresh(pullRefreshState)
+        ) {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(uiState.articles) {
+                    NewsHeadlineItem(
+                        article = it, navigateToHeadlinesDetails = navigateToHeadlinesDetails
+                    )
+                }
+            }
+
+            PullRefreshIndicator(
+                refreshing = uiState.isLoading,
+                state = pullRefreshState,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .testTag(IndicatorTag),
+            )
+
+            if (uiState.exceptionMessage != null) {
+                MySnackbar(uiState.exceptionMessage, "Dismiss")
+            }
         }
     }
 }
@@ -111,8 +123,7 @@ fun MySnackbar(
 
 @Composable
 fun NewsHeadlineItem(
-    article: ArticleDomainModel,
-    navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
+    article: ArticleDomainModel, navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -143,15 +154,13 @@ fun NewsHeadlineItem(
                 Text(
                     text = article.author,
                     maxLines = 1,
-                    modifier = Modifier
-                        .padding(start = 8.dp),
+                    modifier = Modifier.padding(start = 8.dp),
                     fontWeight = FontWeight.Medium
                 )
 
                 Text(
                     text = article.publishedAt,
-                    modifier = Modifier
-                        .padding(end = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
                     fontWeight = FontWeight.Medium
                 )
             }
