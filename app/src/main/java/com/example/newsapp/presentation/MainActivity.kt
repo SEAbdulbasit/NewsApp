@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,11 +38,8 @@ class MainActivity : FragmentActivity() {
 
         setContent {
             NewsAppTheme {
-                val selectedArticle = mutableStateOf<ArticleDomainModel?>(null)
                 val biometricState = remember { mutableStateOf(BiometricState.UNINITIALIZED) }
 
-                val navController = rememberNavController()
-                val startRoute = HeadlinesList
                 if (biometricHelper.isBiometricAvailable()) {
                     biometricHelper.showBiometricPrompt(
                         onSuccess = {
@@ -58,12 +53,12 @@ class MainActivity : FragmentActivity() {
                         }
                     )
                 } else {
-                    App(navController, startRoute, selectedArticle)
+                    App()
                 }
 
                 when (biometricState.value) {
                     BiometricState.AUTH_SUCCESS -> {
-                        App(navController, startRoute, selectedArticle)
+                        App()
                     }
 
                     BiometricState.AUTH_FAILED -> {
@@ -83,10 +78,15 @@ class MainActivity : FragmentActivity() {
 
     @Composable
     private fun App(
-        navController: NavHostController,
-        startRoute: String,
-        selectedArticle: MutableState<ArticleDomainModel?>
     ) {
+
+        //As currently, we can't send parcelable in navigation so setting the selected value to this
+        // and then passing it to details
+        val selectedArticle = remember { (mutableStateOf<ArticleDomainModel?>(null)) }
+
+        val navController = rememberNavController()
+        val startRoute = HeadlinesList
+
         NavHost(navController, startDestination = startRoute) {
             composable(HeadlinesList) { backStackEntry ->
                 val viewModel = hiltViewModel<NewsHeadlineViewModel>()
