@@ -12,6 +12,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -41,6 +42,7 @@ class NewsHeadlineViewModelTest {
         coEvery { newsRepository.getHeadlines() } returns Result.success(emptyList())
 
         viewModel = NewsHeadlineViewModel(newsRepository)
+        advanceUntilIdle()
 
         coVerify { newsRepository.getHeadlines() }
     }
