@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="back_arrow">back arrow</string>
+    <string name="headline_image">headline image</string>
 </resources>
