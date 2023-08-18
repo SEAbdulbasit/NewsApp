@@ -55,7 +55,7 @@ class NewsHeadlinesScreenTest {
         )
 
         composeTestRule.setContent {
-            HeadlinesScreen(uiState) { /* Mock onRefresh function */ }
+            HeadlinesScreen(uiState = uiState, onRefresh = {}, navigateToHeadlinesDetails = {})
         }
 
         composeTestRule.waitForIdle()
@@ -103,7 +103,7 @@ class NewsHeadlinesScreenTest {
         )
 
         composeTestRule.setContent {
-            HeadlinesScreen(uiState) { }
+            HeadlinesScreen(uiState = uiState, onRefresh = {}, navigateToHeadlinesDetails = {})
         }
 
         //Verify that loading is shown

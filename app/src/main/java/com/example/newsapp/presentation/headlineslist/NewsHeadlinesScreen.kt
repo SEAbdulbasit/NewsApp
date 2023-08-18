@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.headlineslist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,16 +42,25 @@ import com.example.newsapp.presentation.NewsScreenState
 
 @Composable
 fun NewsHeadlinesRoute(
-    viewModel: NewsHeadlineViewModel
+    viewModel: NewsHeadlineViewModel,
+    navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
 ) {
     val uiState: NewsScreenState by viewModel.uiState.collectAsState()
 
-    HeadlinesScreen(uiState) { viewModel.onAction(NewsHeadlinesActions.Refresh) }
+    HeadlinesScreen(
+        uiState = uiState,
+        navigateToHeadlinesDetails = navigateToHeadlinesDetails,
+        onRefresh = { viewModel.onAction(NewsHeadlinesActions.Refresh) }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HeadlinesScreen(uiState: NewsScreenState, onRefresh: () -> Unit) {
+fun HeadlinesScreen(
+    uiState: NewsScreenState,
+    onRefresh: () -> Unit,
+    navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
+) {
     val pullRefreshState = rememberPullRefreshState(uiState.isLoading, onRefresh)
 
     Box(
@@ -60,7 +70,10 @@ fun HeadlinesScreen(uiState: NewsScreenState, onRefresh: () -> Unit) {
     ) {
         LazyColumn(Modifier.fillMaxSize()) {
             items(uiState.articles) {
-                NewsHeadlineItem(article = it)
+                NewsHeadlineItem(
+                    article = it,
+                    navigateToHeadlinesDetails = navigateToHeadlinesDetails
+                )
             }
         }
 
@@ -98,12 +111,14 @@ fun MySnackbar(
 
 @Composable
 fun NewsHeadlineItem(
-    article: ArticleDomainModel
+    article: ArticleDomainModel,
+    navigateToHeadlinesDetails: (ArticleDomainModel) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable(onClick = { navigateToHeadlinesDetails(article) }),
         shape = RoundedCornerShape(8.dp)
     ) {
 
