@@ -81,7 +81,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
@@ -139,7 +138,8 @@ dependencies {
 
     implementation(libs.androidx.biometric)
 
-
+    testImplementation(libs.kotlinx.coroutines.test.v173)
+    testImplementation(libs.kotlinx.coroutines.core)
 }
 
 // Allow references to generated code

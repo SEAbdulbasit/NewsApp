@@ -1,13 +1,13 @@
 package com.example.newsapp.network
 
-import com.example.newsapp.domain.NewsRepository
 import com.example.newsapp.domain.model.ArticleDomainModel
 import com.example.newsapp.domain.model.SourceDomainModel
 import com.example.newsapp.network.model.HeadlinesResponseModel
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -17,15 +17,17 @@ import org.junit.Test
  * Created by abdulbasit on 17/08/2023.
  */
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class NewsRepositoryImplTest {
 
-    private val newsApiInterface: NewsApiInterface = mockk()
-    private lateinit var newsRepository: NewsRepository
+    @InjectMockKs
+    private lateinit var newsRepository: NewsRepositoryImpl
+
+    @MockK
+    private lateinit var newsApiInterface: NewsApiInterface
 
     @Before
     fun before() {
-        newsRepository = NewsRepositoryImpl(newsApiInterface)
+        MockKAnnotations.init(this)
     }
 
     @Test
@@ -74,5 +76,4 @@ class NewsRepositoryImplTest {
         url = "url",
         urlToImage = "urlToImage"
     )
-
 }

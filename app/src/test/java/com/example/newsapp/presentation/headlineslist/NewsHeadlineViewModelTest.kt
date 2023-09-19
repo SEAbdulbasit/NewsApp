@@ -5,9 +5,10 @@ import com.example.newsapp.domain.NewsRepository
 import com.example.newsapp.domain.model.ArticleDomainModel
 import com.example.newsapp.domain.model.SourceDomainModel
 import com.example.newsapp.presentation.NewsScreenState
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,9 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class NewsHeadlineViewModelTest {
 
-    private val newsRepository: NewsRepository = mockk()
+    @MockK
+    private lateinit var newsRepository: NewsRepository
+
     private lateinit var viewModel: NewsHeadlineViewModel
 
     private val exception = Exception("Something went wrong")
@@ -35,6 +38,7 @@ class NewsHeadlineViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(StandardTestDispatcher())
+        MockKAnnotations.init(this)
     }
 
     @Test
@@ -42,6 +46,7 @@ class NewsHeadlineViewModelTest {
         coEvery { newsRepository.getHeadlines() } returns Result.success(emptyList())
 
         viewModel = NewsHeadlineViewModel(newsRepository)
+
         advanceUntilIdle()
 
         coVerify { newsRepository.getHeadlines() }
@@ -104,34 +109,41 @@ class NewsHeadlineViewModelTest {
         }
 
     @Test
-    fun givenRefreshActionStateShouldBeLoadingAndTheFailureWhenHeadlinesReturnsFailure() {
-        runTest {
-            coEvery { newsRepository.getHeadlines() } returns Result.success(listOf(articleDomainModel)) andThen Result.failure(
-                exception
+    fun givenRefreshActionStateShouldBeLoadingAndTheFailureWhenHeadlinesReturnsFailure() = runTest {
+        coEvery { newsRepository.getHeadlines() } returns Result.success(
+            listOf(
+                articleDomainModel
+            )
+        ) andThen Result.failure(
+            exception
+        )
+
+        viewModel = NewsHeadlineViewModel(newsRepository)
+
+        viewModel.uiState.test {
+            assertEquals(NewsScreenState(), awaitItem())
+            assertEquals(
+                NewsScreenState(
+                    isLoading = false,
+                    articles = listOf(articleDomainModel),
+                    exceptionMessage = null
+                ), awaitItem()
             )
 
-            viewModel = NewsHeadlineViewModel(newsRepository)
+            viewModel.onAction(NewsHeadlinesActions.Refresh)
 
-            viewModel.uiState.test {
-                assertEquals(NewsScreenState(), awaitItem())
-                assertEquals(
-                    NewsScreenState(
-                        isLoading = false, articles = listOf(articleDomainModel), exceptionMessage = null
-                    ), awaitItem()
-                )
+            assertEquals(
+                NewsScreenState(isLoading = true, articles = listOf(articleDomainModel), null),
+                awaitItem()
+            )
+            assertEquals(
+                NewsScreenState(
+                    isLoading = false,
+                    articles = listOf(articleDomainModel),
+                    exceptionMessage = "Something went wrong"
+                ), awaitItem()
+            )
 
-                viewModel.onAction(NewsHeadlinesActions.Refresh)
-
-                assertEquals(
-                    NewsScreenState(isLoading = true, articles = listOf(articleDomainModel), null), awaitItem()
-                )
-                assertEquals(
-                    NewsScreenState(
-                        isLoading = false, articles = listOf(articleDomainModel), exceptionMessage = "Something went wrong"
-                    ), awaitItem()
-                )
-
-            }
         }
     }
 
